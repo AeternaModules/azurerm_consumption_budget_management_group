@@ -7,12 +7,15 @@ resource "azurerm_consumption_budget_management_group" "consumption_budget_manag
   etag                = each.value.etag
   time_grain          = each.value.time_grain
 
-  notification {
-    contact_emails = each.value.notification.contact_emails
-    enabled        = each.value.notification.enabled
-    operator       = each.value.notification.operator
-    threshold      = each.value.notification.threshold
-    threshold_type = each.value.notification.threshold_type
+  dynamic "notification" {
+    for_each = each.value.notification
+    content {
+      contact_emails = notification.value.contact_emails
+      enabled        = notification.value.enabled
+      operator       = notification.value.operator
+      threshold      = notification.value.threshold
+      threshold_type = notification.value.threshold_type
+    }
   }
 
   time_period {

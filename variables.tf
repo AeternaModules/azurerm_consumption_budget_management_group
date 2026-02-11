@@ -33,14 +33,14 @@ EOT
     management_group_id = string
     name                = string
     etag                = optional(string)
-    time_grain          = optional(string, "Monthly")
-    notification = object({
+    time_grain          = optional(string) # Default: "Monthly"
+    notification = list(object({
       contact_emails = list(string)
-      enabled        = optional(bool, true)
+      enabled        = optional(bool) # Default: true
       operator       = string
       threshold      = number
-      threshold_type = optional(string, "Actual")
-    })
+      threshold_type = optional(string) # Default: "Actual"
+    }))
     time_period = object({
       end_date   = optional(string)
       start_date = string
@@ -48,15 +48,23 @@ EOT
     filter = optional(object({
       dimension = optional(object({
         name     = string
-        operator = optional(string, "In")
+        operator = optional(string) # Default: "In"
         values   = list(string)
       }))
       tag = optional(object({
         name     = string
-        operator = optional(string, "In")
+        operator = optional(string) # Default: "In"
         values   = list(string)
       }))
     }))
   }))
+  validation {
+    condition = alltrue([
+      for k, v in var.consumption_budget_management_groups : (
+        length(v.notification) >= 1
+      )
+    ])
+    error_message = "Each notification list must contain at least 1 items"
+  }
 }
 
