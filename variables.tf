@@ -46,16 +46,16 @@ EOT
       start_date = string
     })
     filter = optional(object({
-      dimension = optional(object({
+      dimension = optional(list(object({
         name     = string
         operator = optional(string) # Default: "In"
         values   = list(string)
-      }))
-      tag = optional(object({
+      })))
+      tag = optional(list(object({
         name     = string
         operator = optional(string) # Default: "In"
         values   = list(string)
-      }))
+      })))
     }))
   }))
   validation {

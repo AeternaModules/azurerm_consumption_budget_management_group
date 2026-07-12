@@ -27,7 +27,7 @@ resource "azurerm_consumption_budget_management_group" "consumption_budget_manag
     for_each = each.value.filter != null ? [each.value.filter] : []
     content {
       dynamic "dimension" {
-        for_each = filter.value.dimension != null ? [filter.value.dimension] : []
+        for_each = filter.value.dimension != null ? filter.value.dimension : []
         content {
           name     = dimension.value.name
           operator = dimension.value.operator
@@ -35,7 +35,7 @@ resource "azurerm_consumption_budget_management_group" "consumption_budget_manag
         }
       }
       dynamic "tag" {
-        for_each = filter.value.tag != null ? [filter.value.tag] : []
+        for_each = filter.value.tag != null ? filter.value.tag : []
         content {
           name     = tag.value.name
           operator = tag.value.operator
