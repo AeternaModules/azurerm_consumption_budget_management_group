@@ -33,13 +33,13 @@ EOT
     management_group_id = string
     name                = string
     etag                = optional(string)
-    time_grain          = optional(string) # Default: "Monthly"
+    time_grain          = optional(string)
     notification = list(object({
       contact_emails = list(string)
-      enabled        = optional(bool) # Default: true
+      enabled        = optional(bool)
       operator       = string
       threshold      = number
-      threshold_type = optional(string) # Default: "Actual"
+      threshold_type = optional(string)
     }))
     time_period = object({
       end_date   = optional(string)
@@ -48,12 +48,12 @@ EOT
     filter = optional(object({
       dimension = optional(list(object({
         name     = string
-        operator = optional(string) # Default: "In"
+        operator = optional(string)
         values   = list(string)
       })))
       tag = optional(list(object({
         name     = string
-        operator = optional(string) # Default: "In"
+        operator = optional(string)
         values   = list(string)
       })))
     }))
